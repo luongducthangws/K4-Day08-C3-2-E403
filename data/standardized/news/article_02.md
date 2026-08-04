@@ -1,0 +1,15 @@
+# Từ 2021: Thêm nhiều quyền lợi cho người lao động
+
+**Nguồn:** https://baochinhphu.vn/tu-2021-them-nhieu-quyen-loi-cho-nguoi-lao-dong-102285092.htm
+
+**Ngày thu thập:** 2026-08-04T00:00:00+00:00
+
+---
+
+## Hợp đồng, thử việc và chấm dứt hợp đồng
+
+Bộ luật Lao động 2019 công nhận hợp đồng lao động được giao kết qua phương tiện điện tử dưới dạng thông điệp dữ liệu có giá trị như văn bản. Hai bên có thể giao kết bằng lời nói đối với hợp đồng dưới một tháng, ngoại trừ các trường hợp luật quy định phải lập văn bản.
+
+Đối với thử việc, công việc của người quản lý doanh nghiệp có thể có thời gian thử việc tối đa 180 ngày. Không áp dụng thử việc với hợp đồng lao động có thời hạn dưới một tháng. Với các nhóm công việc khác, thời hạn cụ thể phải được đối chiếu Điều 25 Bộ luật Lao động 2019.
+
+Người lao động được đơn phương chấm dứt hợp đồng không cần nêu lý do nhưng phải báo trước đúng hạn: thông thường là 45 ngày với hợp đồng không xác định thời hạn, 30 ngày với hợp đồng từ 12 đến 36 tháng và 3 ngày làm việc với hợp đồng dưới 12 tháng. Một số tình huống xâm phạm quyền lợi cho phép nghỉ không cần báo trước.
