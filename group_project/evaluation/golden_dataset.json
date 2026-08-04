@@ -1,17 +1,252 @@
 [
   {
-    "question": "Người mua có thể yêu cầu trả hàng/hoàn tiền trong thời hạn bao lâu sau khi nhận hàng?",
-    "expected_answer": "Trong vòng 15 ngày kể từ khi giao hàng thành công (24 giờ đối với thực phẩm tươi sống/đông lạnh).",
-    "expected_context": "Trang Returns and Refunds Policy, mục Return/Refund Eligibility"
+    "question": "Thời gian thử việc tối đa đối với công việc cần trình độ chuyên môn, kỹ thuật từ cao đẳng trở lên là bao lâu?",
+    "expected_answer": "Tối đa 60 ngày.",
+    "expected_context": "Điều 25 Bộ luật Lao động 2019"
   },
   {
-    "question": "Shopee hỗ trợ những phương thức thanh toán nào?",
-    "expected_answer": "ShopeePay Wallet, thẻ tín dụng/ghi nợ, trả góp qua thẻ, QR Code, chuyển khoản qua app ngân hàng, thẻ NAPAS, Apple Pay, Google Pay, và COD.",
-    "expected_context": "Trang Payment Methods Overview"
+    "question": "Tiền lương của người lao động trong thời gian thử việc ít nhất phải bằng bao nhiêu % mức lương của công việc đó?",
+    "expected_answer": "Ít nhất bằng 85% mức lương của công việc đó.",
+    "expected_context": "Điều 26 Bộ luật Lao động 2019"
   },
   {
-    "question": "Người bán không được đăng bán những sản phẩm nào?",
-    "expected_answer": "Hàng giả/nhái, sản phẩm bất hợp pháp, vi phạm sở hữu trí tuệ, và các mặt hàng nằm trong danh sách cấm của sàn.",
-    "expected_context": "Trang Product Listing Regulations, mục Prohibited Content"
+    "question": "Người lao động có phải báo trước khi đơn phương chấm dứt hợp đồng thử việc không?",
+    "expected_answer": "Trong thời gian thử việc, mỗi bên có quyền huỷ bỏ thoả thuận thử việc mà không cần báo trước và không phải bồi thường.",
+    "expected_context": "Điều 27 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người sử dụng lao động có được giữ bản chính giấy tờ tùy thân của người lao động khi giao kết hợp đồng không?",
+    "expected_answer": "Không được giữ bản chính giấy tờ tùy thân, văn bằng, chứng chỉ của người lao động.",
+    "expected_context": "Điều 17 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Hợp đồng lao động xác định thời hạn có thời hạn tối đa là bao lâu?",
+    "expected_answer": "Tối đa là 36 tháng.",
+    "expected_context": "Điều 20 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động làm việc đủ 12 tháng thì có bao nhiêu ngày nghỉ hằng năm hưởng nguyên lương trong điều kiện bình thường?",
+    "expected_answer": "Có 12 ngày làm việc được nghỉ hằng năm hưởng nguyên lương.",
+    "expected_context": "Điều 113 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi làm thêm giờ vào ngày nghỉ hằng tuần, người lao động được hưởng lương ít nhất bằng bao nhiêu % so với ngày thường?",
+    "expected_answer": "Ít nhất bằng 200% đơn giá tiền lương hoặc tiền lương thực trả theo công việc đang làm.",
+    "expected_context": "Điều 98 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi làm thêm giờ vào ngày nghỉ lễ, tết, người lao động được hưởng lương ít nhất bằng bao nhiêu % so với ngày thường?",
+    "expected_answer": "Ít nhất bằng 300% chưa kể tiền lương ngày lễ, tết, ngày nghỉ có hưởng lương đối với người lao động hưởng lương ngày.",
+    "expected_context": "Điều 98 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động làm việc vào ban đêm được trả thêm ít nhất bằng bao nhiêu % tiền lương của ngày làm việc bình thường?",
+    "expected_answer": "Ít nhất bằng 30% tiền lương tính theo đơn giá tiền lương hoặc tiền lương thực trả theo công việc của ngày làm việc bình thường.",
+    "expected_context": "Điều 98 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Tuổi lao động tối thiểu của người lao động tại Việt Nam theo quy định chung là bao nhiêu tuổi?",
+    "expected_answer": "Tuổi lao động tối thiểu của người lao động là đủ 15 tuổi, trừ trường hợp quy định tại Mục 1 Chương XI của Bộ luật Lao động 2019.",
+    "expected_context": "Điều 3 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời giờ làm việc bình thường không quá bao nhiêu giờ trong một ngày và trong một tuần?",
+    "expected_answer": "Không quá 08 giờ trong một ngày và không quá 48 giờ trong một tuần.",
+    "expected_context": "Điều 105 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động có quyền đơn phương chấm dứt hợp đồng lao động không cần báo trước trong trường hợp nào?",
+    "expected_answer": "Trong các trường hợp như không được bố trí đúng công việc, địa điểm làm việc; không được trả đủ lương hoặc trả lương không đúng thời hạn; bị ngược đãi, cưỡng bức lao động, quấy rối tình dục tại nơi làm việc; lao động nữ mang thai phải nghỉ việc.",
+    "expected_context": "Điều 35 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động đơn phương chấm dứt hợp đồng lao động không xác định thời hạn phải báo trước ít nhất bao nhiêu ngày?",
+    "expected_answer": "Ít nhất 45 ngày.",
+    "expected_context": "Điều 35 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động làm việc theo hợp đồng xác định thời hạn từ 12 đến 36 tháng khi đơn phương chấm dứt hợp đồng phải báo trước ít nhất bao nhiêu ngày?",
+    "expected_answer": "Ít nhất 30 ngày.",
+    "expected_context": "Điều 35 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người sử dụng lao động đơn phương chấm dứt hợp đồng lao động trong trường hợp người lao động bị ốm đau phải báo trước bao lâu?",
+    "expected_answer": "Phải báo trước ít nhất 45 ngày đối với hợp đồng lao động không xác định thời hạn; ít nhất 30 ngày đối với hợp đồng lao động xác định thời hạn từ 12 đến 36 tháng; ít nhất 03 ngày làm việc đối với hợp đồng dưới 12 tháng.",
+    "expected_context": "Điều 36 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người sử dụng lao động không được thực hiện quyền đơn phương chấm dứt hợp đồng lao động đối với người lao động nữ trong trường hợp nào?",
+    "expected_answer": "Trường hợp người lao động nữ mang thai, nghỉ thai sản hoặc nuôi con dưới 12 tháng tuổi.",
+    "expected_context": "Điều 37 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Mức trợ cấp thôi việc được tính như thế nào cho mỗi năm làm việc?",
+    "expected_answer": "Mỗi năm làm việc được trợ cấp một nửa tháng tiền lương.",
+    "expected_context": "Điều 46 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động có được trả lương trực tiếp, đầy đủ và đúng hạn không?",
+    "expected_answer": "Người lao động được trả lương trực tiếp, đầy đủ và đúng hạn. Trường hợp đặc biệt không thể trả lương đúng hạn thì không được chậm quá 30 ngày và phải đền bù nếu chậm từ 15 ngày trở lên.",
+    "expected_context": "Điều 94 và Điều 97 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Lao động nữ được nghỉ thai sản trước và sau khi sinh con là bao nhiêu tháng?",
+    "expected_answer": "06 tháng; thời gian nghỉ trước khi sinh không quá 02 tháng.",
+    "expected_context": "Điều 139 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi sinh con, lao động nam đang đóng bảo hiểm xã hội được nghỉ thai sản bao nhiêu ngày đối với trường hợp sinh thường 1 con?",
+    "expected_answer": "Được nghỉ 05 ngày làm việc.",
+    "expected_context": "Luật Bảo hiểm xã hội 2014"
+  },
+  {
+    "question": "Thời giờ làm thêm của người lao động không quá bao nhiêu giờ trong một ngày khi làm thêm vào ngày thường?",
+    "expected_answer": "Không quá 50% số giờ làm việc bình thường trong 01 ngày.",
+    "expected_context": "Điều 107 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Tổng số giờ làm thêm tối đa của người lao động không quá bao nhiêu giờ trong một năm trong điều kiện bình thường?",
+    "expected_answer": "Không quá 200 giờ trong một năm (trừ một số trường hợp đặc biệt không quá 300 giờ).",
+    "expected_context": "Điều 107 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động kết hôn được nghỉ bao nhiêu ngày hưởng nguyên lương?",
+    "expected_answer": "Nghỉ 03 ngày.",
+    "expected_context": "Điều 115 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Con đẻ, con nuôi kết hôn thì người lao động được nghỉ bao nhiêu ngày hưởng nguyên lương?",
+    "expected_answer": "Nghỉ 01 ngày.",
+    "expected_context": "Điều 115 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Bố đẻ, mẹ đẻ, bố vợ, mẹ vợ (hoặc bố chồng, mẹ chồng) chết thì người lao động được nghỉ bao nhiêu ngày hưởng nguyên lương?",
+    "expected_answer": "Nghỉ 03 ngày.",
+    "expected_context": "Điều 115 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động tự ý bỏ việc bao nhiêu ngày cộng dồn trong 1 năm thì có thể bị xử lý kỷ luật sa thải?",
+    "expected_answer": "Tự ý bỏ việc 20 ngày cộng dồn trong 365 ngày kể từ ngày tự ý bỏ việc lần đầu tiên mà không có lý do chính đáng.",
+    "expected_context": "Điều 125 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Có mấy hình thức xử lý kỷ luật lao động được áp dụng theo luật?",
+    "expected_answer": "4 hình thức: Khiển trách; Kéo dài thời hạn nâng lương không quá 06 tháng; Cách chức; Sa thải.",
+    "expected_context": "Điều 124 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người sử dụng lao động có được dùng hình thức phạt tiền, cắt lương thay cho việc xử lý kỷ luật lao động không?",
+    "expected_answer": "Nghiêm cấm dùng hình thức phạt tiền, cắt lương thay cho việc xử lý kỷ luật lao động.",
+    "expected_context": "Điều 127 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời hiệu xử lý kỷ luật lao động tối đa là bao lâu đối với hành vi vi phạm thông thường?",
+    "expected_answer": "Là 06 tháng kể từ ngày xảy ra hành vi vi phạm.",
+    "expected_context": "Điều 123 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động bị xử lý kỷ luật sa thải trong trường hợp nào?",
+    "expected_answer": "Trộm cắp, tham ô, tiết lộ bí mật kinh doanh, gây thiệt hại nghiêm trọng; tự ý bỏ việc 05 ngày cộng dồn trong 30 ngày hoặc 20 ngày cộng dồn trong 365 ngày mà không có lý do chính đáng.",
+    "expected_context": "Điều 125 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời gian thử việc tối đa đối với công việc của người quản lý doanh nghiệp theo Luật Doanh nghiệp là bao lâu?",
+    "expected_answer": "Tối đa 180 ngày.",
+    "expected_context": "Điều 25 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời gian thử việc tối đa đối với công việc cần trình độ chuyên môn kỹ thuật trung cấp, công nhân kỹ thuật, nhân viên nghiệp vụ là bao lâu?",
+    "expected_answer": "Tối đa 30 ngày.",
+    "expected_context": "Điều 25 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Đối với công việc khác không thuộc nhóm chuyên môn kỹ thuật cao, thời gian thử việc tối đa là bao nhiêu ngày?",
+    "expected_answer": "Không quá 03 ngày làm việc.",
+    "expected_context": "Điều 25 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động làm việc vào ban đêm được tính từ mấy giờ đến mấy giờ?",
+    "expected_answer": "Từ 22 giờ đến 06 giờ sáng ngày hôm sau.",
+    "expected_context": "Điều 106 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Hợp đồng lao động bằng lời nói có được chấp nhận không và áp dụng cho trường hợp nào?",
+    "expected_answer": "Có được chấp nhận, áp dụng đối với hợp đồng lao động có thời hạn dưới 01 tháng, trừ trường hợp giao kết hợp đồng với người dưới 15 tuổi, lao động là người giúp việc gia đình.",
+    "expected_context": "Điều 14 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Trong năm, người lao động được nghỉ làm việc, hưởng nguyên lương trong những ngày lễ, tết nào và tổng cộng bao nhiêu ngày?",
+    "expected_answer": "Nghỉ tổng cộng 11 ngày: Tết Dương lịch (1 ngày), Tết Âm lịch (5 ngày), Ngày Chiến thắng 30/4 (1 ngày), Ngày Quốc tế lao động 1/5 (1 ngày), Quốc khánh 2/9 (2 ngày), Ngày Giỗ Tổ Hùng Vương 10/3 âm lịch (1 ngày).",
+    "expected_context": "Điều 112 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi kết thúc thời gian thử việc đạt yêu cầu, người sử dụng lao động phải làm gì?",
+    "expected_answer": "Phải giao kết hợp đồng lao động đối với người lao động.",
+    "expected_context": "Điều 27 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động có được đơn phương chấm dứt hợp đồng lao động mà không cần lý do không?",
+    "expected_answer": "Có, người lao động có quyền đơn phương chấm dứt hợp đồng lao động nhưng phải tuân thủ thời hạn báo trước theo quy định (trừ một số trường hợp không cần báo trước).",
+    "expected_context": "Điều 35 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Chi phí liên quan đến việc tuyển dụng lao động do ai chi trả?",
+    "expected_answer": "Do người sử dụng lao động chi trả, người lao động không phải trả bất kỳ khoản phí tuyển dụng nào.",
+    "expected_context": "Nghị định 145/2020/NĐ-CP"
+  },
+  {
+    "question": "Người sử dụng lao động có phải đóng bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp cho người lao động thử việc không?",
+    "expected_answer": "Không bắt buộc đóng BHXH bắt buộc đối với hợp đồng thử việc riêng lẻ. Tuy nhiên nếu thử việc ghi chung trong hợp đồng lao động từ 1 tháng trở lên thì phải đóng.",
+    "expected_context": "Luật Bảo hiểm xã hội 2014 và Bộ luật Lao động 2019"
+  },
+  {
+    "question": "If người lao động đơn phương chấm dứt hợp đồng lao động trái pháp luật thì phải bồi thường những gì?",
+    "expected_answer": "Phải bồi thường nửa tháng tiền lương theo hợp đồng lao động và một khoản tiền tương ứng với tiền lương của người lao động trong những ngày không báo trước (nếu vi phạm thời hạn báo trước), ngoài ra phải hoàn trả chi phí đào tạo (nếu có).",
+    "expected_context": "Điều 40 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi chấm dứt hợp đồng lao động, trong thời hạn bao nhiêu ngày hai bên có trách nhiệm thanh toán đầy đủ các khoản tiền liên quan đến quyền lợi của mỗi bên?",
+    "expected_answer": "Trong thời hạn 14 ngày làm việc kể từ ngày chấm dứt hợp đồng lao động (có thể kéo dài nhưng không quá 30 ngày trong trường hợp đặc biệt).",
+    "expected_context": "Điều 48 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động có được nghỉ không hưởng lương khi ông nội, bà nội, ông ngoại, bà ngoại chết không?",
+    "expected_answer": "Được nghỉ không hưởng lương 01 ngày và phải thông báo với người sử dụng lao động.",
+    "expected_context": "Điều 115 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người sử dụng lao động có được bắt buộc người lao động làm thêm giờ không?",
+    "expected_answer": "Không được bắt buộc, trừ trường hợp thực hiện lệnh động viên, ứng phó thiên tai, hỏa hoạn, dịch bệnh nguy hiểm hoặc công việc khẩn cấp đe dọa tính mạng con người.",
+    "expected_context": "Điều 107 và Điều 108 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Lương tối thiểu vùng là gì?",
+    "expected_answer": "Là mức lương thấp nhất được trả cho người lao động làm công việc giản đơn nhất trong điều kiện lao động bình thường nhằm bảo đảm mức sống tối thiểu.",
+    "expected_context": "Điều 91 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động nữ mang thai làm công việc nặng nhọc được giảm bớt thời giờ làm việc như thế nào?",
+    "expected_answer": "Được chuyển sang làm công việc nhẹ hơn, an toàn hơn hoặc giảm bớt 01 giờ làm việc hằng ngày mà không bị cắt giảm tiền lương kể từ khi thông báo cho người sử dụng lao động.",
+    "expected_context": "Điều 137 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời gian nghỉ giữa giờ đối với người lao động làm việc liên tục từ 06 giờ trở lên là bao lâu?",
+    "expected_answer": "Được nghỉ giữa giờ ít nhất 30 phút liên tục, trường hợp làm việc vào ban đêm thì được nghỉ giữa giờ ít nhất 45 phút liên tục.",
+    "expected_context": "Điều 109 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động bị tai nạn lao động được người sử dụng lao động thanh toán các khoản chi phí nào?",
+    "expected_answer": "Được thanh toán chi phí y tế từ sơ cứu, cấp cứu đến khi điều trị ổn định; trả đủ tiền lương trong thời gian điều trị; bồi thường hoặc trợ cấp tùy theo mức độ suy giảm khả năng lao động.",
+    "expected_context": "Điều 38 Luật An toàn, vệ sinh lao động 2015"
+  },
+  {
+    "question": "Lao động nữ nuôi con dưới 12 tháng tuổi được nghỉ bao nhiêu phút mỗi ngày trong thời gian làm việc để cho con bú, vắt sữa, trữ sữa, nghỉ ngơi?",
+    "expected_answer": "Được nghỉ 60 phút mỗi ngày trong thời gian làm việc và vẫn được hưởng đủ tiền lương.",
+    "expected_context": "Điều 137 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động làm thêm giờ vào ban đêm được trả lương như thế nào?",
+    "expected_answer": "Được trả lương tính theo đơn giá tiền lương hoặc tiền lương thực trả theo công việc của ngày làm việc bình thường cộng thêm ít nhất 30% lương ban đêm và 20% lương của ngày làm việc bình thường hoặc của ngày nghỉ cuối tuần/ngày lễ.",
+    "expected_context": "Điều 98 Bộ luật Lao động 2019"
   }
 ]

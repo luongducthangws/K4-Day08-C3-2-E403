@@ -81,38 +81,44 @@ def evaluate_with_deepeval(rag_pipeline, golden_dataset: list[dict]) -> dict:
 # =============================================================================
 
 def evaluate_with_ragas(rag_pipeline, golden_dataset: list[dict]) -> dict:
-    """
-    Evaluate RAG pipeline sử dụng RAGAS.
+    """Evaluate RAG pipeline sử dụng RAGAS."""
+    from ragas import evaluate
+    from ragas.metrics import (
+        faithfulness,
+        answer_relevancy,
+        context_recall,
+        context_precision,
+    )
+    from datasets import Dataset
+    import pandas as pd
 
-    pip install ragas
-    """
-    # TODO: Implement
-    #
-    # from ragas import evaluate
-    # from ragas.metrics import (
-    #     faithfulness,
-    #     answer_relevancy,
-    #     context_recall,
-    #     context_precision,
-    # )
-    # from datasets import Dataset
-    #
-    # eval_data = {"question": [], "answer": [], "contexts": [], "ground_truth": []}
-    #
-    # for item in golden_dataset:
-    #     result = rag_pipeline.generate_with_citation(item["question"])
-    #     eval_data["question"].append(item["question"])
-    #     eval_data["answer"].append(result["answer"])
-    #     eval_data["contexts"].append([c["content"] for c in result["sources"]])
-    #     eval_data["ground_truth"].append(item["expected_answer"])
-    #
-    # dataset = Dataset.from_dict(eval_data)
-    # result = evaluate(
-    #     dataset,
-    #     metrics=[faithfulness, answer_relevancy, context_recall, context_precision],
-    # )
-    # return result.to_pandas()
-    raise NotImplementedError("Implement evaluate_with_ragas")
+    # Chuẩn bị dữ liệu đầu vào cho RAGAS
+    eval_data = {"question": [], "answer": [], "contexts": [], "ground_truth": []}
+    
+    # Do giới hạn Rate Limit của tài khoản free (nếu dùng OpenRouter free)
+    # Bạn nên test thử trước với subset 3-5 câu hỏi trước khi chạy toàn bộ 15-20 câu.
+    subset = golden_dataset[:5]  # Tạm thời chạy thử 5 câu
+    
+    for item in subset:
+        # Gọi RAG pipeline của bạn
+        result = rag_pipeline(item["question"])
+        
+        eval_data["question"].append(item["question"])
+        eval_data["answer"].append(result["answer"])
+        # Định dạng contexts là list of strings
+        eval_data["contexts"].append([c["content"] for c in result["sources"]])
+        eval_data["ground_truth"].append(item["expected_answer"])
+    
+    dataset = Dataset.from_dict(eval_data)
+    
+    # Tiến hành đánh giá
+    result = evaluate(
+        dataset,
+        metrics=[faithfulness, answer_relevancy, context_recall, context_precision],
+    )
+    
+    # Trả về kết quả
+    return result
 
 
 # =============================================================================
