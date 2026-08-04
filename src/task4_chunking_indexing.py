@@ -8,9 +8,19 @@ Hướng dẫn:
     4. Index vào vector store (ChromaDB khuyến cáo — đơn giản, local, không cần Docker)
 
 Chunking options (langchain-text-splitters):
-    - RecursiveCharacterTextSplitter: an toàn, phổ biến
-    - MarkdownHeaderTextSplitter: tốt cho file có heading
-    - SemanticChunker: dùng embedding để tách (nâng cao)
+    - RecursiveCharacterTextSplitter: an toàn, phổ biến — nhưng cắt theo số ký tự cố định,
+      không biết ranh giới Điều/Khoản, dễ cắt đôi 1 Điều luật giữa 2 chunk khác nhau.
+    - MarkdownHeaderTextSplitter: tốt cho file có heading (##) — phù hợp cho data/standardized/news/
+      (bài viết crawl, không có cấu trúc Điều/Khoản).
+    - SemanticChunker: dùng embedding để tách (nâng cao, tốn compute) — không cần thiết khi văn
+      bản đã có ranh giới cấu trúc rõ ràng sẵn (như luật), phù hợp hơn cho văn bản prose tự do.
+    - Chunk theo Điều/Khoản (custom, regex-based) — KHUYẾN NGHỊ cho data/standardized/legal/
+      (Bộ luật Lao động, Nghị định...): mỗi chunk = 1 Điều (hoặc 1 Khoản nếu Điều quá dài).
+      Lý do: Task 10 yêu cầu trích dẫn dạng "[Điều 25, Bộ luật Lao động 2019]" — chunk theo
+      ranh giới Điều giữ nguyên vẹn 1 đơn vị pháp lý, tránh cắt đôi ý và trích dẫn sai/mơ hồ.
+      Vì độ dài Điều rất lệch nhau, nên dùng HYBRID: parse theo "Điều N." làm đơn vị chính,
+      nếu 1 Điều vượt CHUNK_SIZE thì chẻ tiếp theo Khoản ("1.", "2." con trong Điều đó) nhưng
+      vẫn giữ dieu_number trong metadata để trích dẫn đúng.
 
 Embedding model options (chọn 1, cân nhắc đánh đổi cài đặt nặng vs cần API key):
     - sentence-transformers/all-MiniLM-L6-v2 hoặc BAAI/bge-m3 — chạy local, không
@@ -45,9 +55,15 @@ CHROMA_DIR = Path(__file__).parent.parent / "chroma_db"
 # =============================================================================
 
 # TODO: Chọn chunking strategy và giải thích vì sao
-CHUNK_SIZE = 500        # Vì sao chọn 500? ...
-CHUNK_OVERLAP = 50      # Vì sao chọn 50? ...
-CHUNKING_METHOD = "recursive"  # "recursive" | "markdown_header" | "semantic"
+# Khuyến nghị: hybrid theo loại tài liệu —
+#   type == "legal" (Bộ luật/Nghị định, có "Điều N.") → CHUNKING_METHOD = "legal_structure"
+#   type == "news"  (bài viết crawl, không có Điều/Khoản) → "recursive" hoặc "markdown_header"
+# CHUNK_SIZE ở đây đóng vai trò NGƯỠNG chẻ tiếp (không phải kích thước chunk cố định) khi
+# dùng "legal_structure": nếu 1 Điều dài hơn CHUNK_SIZE ký tự thì chẻ theo Khoản bên trong.
+CHUNK_SIZE = 800        # Vì sao 800 (không phải 500)? 1 Điều luật thường dài hơn 1 đoạn văn thường,
+                        # ngưỡng 500 sẽ chẻ hầu hết các Điều ra dù không cần thiết.
+CHUNK_OVERLAP = 50      # Vì sao chọn 50? ... (chỉ áp dụng cho nhánh recursive/news)
+CHUNKING_METHOD = "legal_structure"  # "legal_structure" | "recursive" | "markdown_header" | "semantic"
 
 # TODO: Chọn embedding model và giải thích
 EMBEDDING_MODEL = "BAAI/bge-m3"  # Vì sao? Multilingual, tốt cho tiếng Việt lẫn tiếng Anh
@@ -91,9 +107,58 @@ def chunk_documents(documents: list[dict]) -> list[dict]:
     """
     # TODO: Implement chunking
     #
-    # Ví dụ với RecursiveCharacterTextSplitter:
+    # Ví dụ HYBRID (khuyến nghị) — legal_structure cho type=="legal", recursive cho type=="news":
+    # import re
     # from langchain_text_splitters import RecursiveCharacterTextSplitter
     #
+    # DIEU_PATTERN = re.compile(r"^Điều\s+(\d+)\.", re.MULTILINE)
+    #
+    # def chunk_by_dieu(content: str, metadata: dict) -> list[dict]:
+    #     matches = list(DIEU_PATTERN.finditer(content))
+    #     if not matches:  # văn bản không có "Điều N." (vd. lời mở đầu) → fallback recursive
+    #         return chunk_by_recursive(content, metadata)
+    #     boundaries = [m.start() for m in matches] + [len(content)]
+    #     chunks = []
+    #     for i, m in enumerate(matches):
+    #         dieu_text = content[boundaries[i]:boundaries[i + 1]].strip()
+    #         dieu_num = m.group(1)
+    #         if len(dieu_text) <= CHUNK_SIZE:
+    #             chunks.append({
+    #                 "content": dieu_text,
+    #                 "metadata": {**metadata, "chunk_index": i, "dieu_number": dieu_num},
+    #             })
+    #         else:
+    #             # Điều quá dài → chẻ tiếp theo Khoản, vẫn giữ dieu_number để trích dẫn đúng
+    #             splitter = RecursiveCharacterTextSplitter(
+    #                 chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP,
+    #                 separators=["\n\d+\.\s", "\n\n", "\n", ". ", " "],
+    #             )
+    #             for j, sub in enumerate(splitter.split_text(dieu_text)):
+    #                 chunks.append({
+    #                     "content": sub,
+    #                     "metadata": {**metadata, "chunk_index": f"{i}.{j}", "dieu_number": dieu_num},
+    #                 })
+    #     return chunks
+    #
+    # def chunk_by_recursive(content: str, metadata: dict) -> list[dict]:
+    #     splitter = RecursiveCharacterTextSplitter(
+    #         chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP,
+    #         separators=["\n\n", "\n", ". ", " ", ""],
+    #     )
+    #     return [
+    #         {"content": c, "metadata": {**metadata, "chunk_index": i}}
+    #         for i, c in enumerate(splitter.split_text(content))
+    #     ]
+    #
+    # chunks = []
+    # for doc in documents:
+    #     if doc["metadata"]["type"] == "legal":
+    #         chunks.extend(chunk_by_dieu(doc["content"], doc["metadata"]))
+    #     else:
+    #         chunks.extend(chunk_by_recursive(doc["content"], doc["metadata"]))
+    # return chunks
+    #
+    # Ví dụ THUẦN RecursiveCharacterTextSplitter (đơn giản hơn, nếu không muốn làm hybrid):
     # splitter = RecursiveCharacterTextSplitter(
     #     chunk_size=CHUNK_SIZE,
     #     chunk_overlap=CHUNK_OVERLAP,
