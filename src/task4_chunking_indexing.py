@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
+import os
 from pathlib import Path
 from typing import Final, Protocol, TypedDict
 
@@ -15,6 +16,7 @@ EMBEDDING_MODEL: Final = "BAAI/bge-m3"
 EMBEDDING_DIM: Final = 1024
 VECTOR_STORE: Final = "chromadb"
 COLLECTION_NAME: Final = "ecommerce_support_docs"
+INDEX_BATCH_SIZE: Final = 16
 
 
 class Metadata(TypedDict, total=False):
@@ -126,7 +128,10 @@ def embed_texts(texts: list[str]) -> list[list[float]]:
     if not texts:
         return []
     embeddings = get_embedding_model().encode(texts, normalize_embeddings=True)
-    return [list(vector) for vector in embeddings]
+    # ChromaDB validates Python ``float``/``int`` values.  SentenceTransformers
+    # returns NumPy float32 scalars, which recent ChromaDB versions reject when
+    # they are merely wrapped with ``list(vector)``.
+    return [[float(value) for value in vector] for vector in embeddings]
 
 
 def embed_chunks(chunks: list[Document]) -> list[Document]:
@@ -161,11 +166,46 @@ def index_to_vectorstore(chunks: list[Document]) -> None:
     )
 
 
-def run_pipeline() -> None:
-    """Load, chunk, embed, and persist all standardized documents."""
-    chunks = embed_chunks(chunk_documents(load_documents()))
-    index_to_vectorstore(chunks)
+def run_pipeline(max_chunks: int | None = None) -> None:
+    """Load, embed in bounded batches, and persist standardized documents.
+
+    Batching avoids holding every BGE-M3 embedding in RAM and makes progress
+    visible on CPU-only Windows machines. ``max_chunks`` is useful for a quick
+    smoke-test index; normal runs leave it as ``None`` and index the full corpus.
+    """
+    chunks = chunk_documents(load_documents())
+    if max_chunks is not None:
+        chunks = chunks[:max(0, max_chunks)]
+    if not chunks:
+        return
+
+    collection = get_collection()
+    expected_ids = {
+        f"{chunk['metadata']['source']}::chunk-{chunk['metadata']['chunk_index']}"
+        for chunk in chunks
+    }
+    # Only prune when building the complete index. A smoke-test index must not
+    # remove batches written by an earlier complete run.
+    if max_chunks is None:
+        existing = set(collection.get(include=[]).get("ids", []))
+        stale_ids = sorted(existing - expected_ids)
+        if stale_ids:
+            collection.delete(ids=stale_ids)
+
+    for start in range(0, len(chunks), INDEX_BATCH_SIZE):
+        batch = embed_chunks(chunks[start : start + INDEX_BATCH_SIZE])
+        collection.upsert(
+            ids=[
+                f"{item['metadata']['source']}::chunk-{item['metadata']['chunk_index']}"
+                for item in batch
+            ],
+            documents=[item["content"] for item in batch],
+            embeddings=[item["embedding"] for item in batch],
+            metadatas=[item["metadata"] for item in batch],
+        )
+        print(f"Indexed {min(start + len(batch), len(chunks))}/{len(chunks)} chunks")
 
 
 if __name__ == "__main__":
-    run_pipeline()
+    max_chunks_env = os.getenv("INDEX_MAX_CHUNKS", "").strip()
+    run_pipeline(int(max_chunks_env) if max_chunks_env else None)
