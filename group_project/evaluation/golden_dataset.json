@@ -248,5 +248,255 @@
     "question": "Người lao động làm thêm giờ vào ban đêm được trả lương như thế nào?",
     "expected_answer": "Được trả lương tính theo đơn giá tiền lương hoặc tiền lương thực trả theo công việc của ngày làm việc bình thường cộng thêm ít nhất 30% lương ban đêm và 20% lương của ngày làm việc bình thường hoặc của ngày nghỉ cuối tuần/ngày lễ.",
     "expected_context": "Điều 98 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Hợp đồng lao động vô hiệu toàn bộ trong trường hợp nào?",
+    "expected_answer": "Toàn bộ nội dung của hợp đồng lao động vi phạm pháp luật; người ký kết không đúng thẩm quyền hoặc vi phạm nguyên tắc tự nguyện, bình đẳng; công việc bị pháp luật cấm.",
+    "expected_context": "Điều 49 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Hợp đồng lao động vô hiệu một phần trong trường hợp nào?",
+    "expected_answer": "Khi nội dung của phần đó vi phạm pháp luật nhưng không ảnh hưởng đến các phần còn lại của hợp đồng.",
+    "expected_context": "Điều 49 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Cơ quan nào có thẩm quyền tuyên bố hợp đồng lao động vô hiệu?",
+    "expected_answer": "Tòa án nhân dân và Thanh tra lao động.",
+    "expected_context": "Điều 50 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động nước ngoài làm việc tại Việt Nam phải đáp ứng điều kiện độ tuổi tối thiểu là bao nhiêu?",
+    "expected_answer": "Phải từ đủ 18 tuổi trở lên.",
+    "expected_context": "Điều 151 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Giấy phép lao động của người nước ngoài làm việc tại Việt Nam có thời hạn tối đa là bao lâu?",
+    "expected_answer": "Tối đa là 02 năm, trường hợp gia hạn thì chỉ được gia hạn một lần với thời hạn tối đa là 02 năm.",
+    "expected_context": "Điều 155 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Lao động là người cao tuổi được định nghĩa như thế nào trong luật lao động?",
+    "expected_answer": "Là người tiếp tục lao động sau độ tuổi nghỉ hưu trong điều kiện lao động bình thường.",
+    "expected_context": "Điều 148 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi sử dụng lao động là người cao tuổi, người sử dụng lao động có phải thỏa thuận rút ngắn thời giờ làm việc hằng ngày không?",
+    "expected_answer": "Có quyền thỏa thuận rút ngắn thời giờ làm việc hằng ngày hoặc áp dụng chế độ làm việc không trọn thời gian.",
+    "expected_context": "Điều 149 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động dưới 15 tuổi làm việc không quá bao nhiêu giờ trong một ngày?",
+    "expected_answer": "Không quá 04 giờ trong một ngày và không quá 20 giờ trong một tuần.",
+    "expected_context": "Điều 146 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động từ đủ 15 tuổi đến dưới 18 tuổi làm việc không quá bao nhiêu giờ trong một ngày?",
+    "expected_answer": "Không quá 08 giờ trong một ngày và không quá 40 giờ trong một tuần.",
+    "expected_context": "Điều 146 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Có được sử dụng người từ đủ 13 đến dưới 15 tuổi làm những công việc ngoài danh mục do Bộ Lao động - Thương binh và Xã hội ban hành không?",
+    "expected_answer": "Không được phép, chỉ được tuyển dụng và sử dụng vào các công việc nhẹ theo danh mục quy định.",
+    "expected_context": "Điều 143 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi tuyển dụng người dưới 15 tuổi vào làm việc, người sử dụng lao động phải giao kết hợp đồng với ai?",
+    "expected_answer": "Phải giao kết hợp đồng lao động bằng văn bản với người chưa đủ 15 tuổi và người đại diện theo pháp luật của người đó.",
+    "expected_context": "Điều 145 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Đối với lao động nữ mang thai từ tháng thứ mấy trở đi thì không được sử dụng làm thêm giờ, làm việc ban đêm?",
+    "expected_answer": "Từ tháng thứ 07 hoặc từ tháng thứ 06 nếu làm việc ở vùng cao, vùng sâu, vùng xa, biên giới, hải đảo.",
+    "expected_context": "Điều 137 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người sử dụng lao động có được sa thái người lao động nữ vì lý do kết hôn không?",
+    "expected_answer": "Không được sa thải hoặc đơn phương chấm dứt hợp đồng lao động đối với người lao động vì lý do kết hôn.",
+    "expected_context": "Điều 137 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động bị tạm đình chỉ công việc trong thời gian tối đa là bao lâu để xác minh vụ việc kỷ luật?",
+    "expected_answer": "Không quá 15 ngày, trường hợp đặc biệt không quá 90 ngày.",
+    "expected_context": "Điều 128 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Trong thời gian bị tạm đình chỉ công việc, người lao động có được tạm ứng tiền lương không và mức tạm ứng là bao nhiêu?",
+    "expected_answer": "Được tạm ứng 50% tiền lương trước khi bị tạm đình chỉ công việc.",
+    "expected_context": "Điều 128 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi không xử lý kỷ luật lao động đối với người lao động bị đình chỉ công việc, người sử dụng lao động phải làm gì?",
+    "expected_answer": "Phải trả đủ tiền lương cho thời gian bị tạm đình chỉ công việc.",
+    "expected_context": "Điều 128 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Mức bồi thường tối đa khi người lao động sơ suất gây thiệt hại không nghiêm trọng cho người sử dụng lao động (dưới 10 tháng lương tối thiểu vùng) là bao nhiêu?",
+    "expected_answer": "Bồi thường nhiều nhất là 03 tháng tiền lương và bị khấu trừ hằng tháng vào lương.",
+    "expected_context": "Điều 129 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Mức khấu trừ lương hằng tháng để bồi thường thiệt hại tối đa không quá bao nhiêu % tiền lương thực nhận của người lao động?",
+    "expected_answer": "Không quá 30% tiền lương thực nhận hằng tháng của người lao động sau khi nộp các khoản bảo hiểm bắt buộc và thuế.",
+    "expected_context": "Điều 102 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thỏa ước lao động tập thể là gì?",
+    "expected_answer": "Là thỏa thuận đạt được thông qua thương lượng tập thể và được các bên ký kết bằng văn bản.",
+    "expected_context": "Điều 75 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thỏa ước lao động tập thể doanh nghiệp có hiệu lực kể từ ngày nào?",
+    "expected_answer": "Do các bên thỏa thuận ghi trong thỏa ước; trường hợp không ghi thì có hiệu lực kể từ ngày các bên ký kết.",
+    "expected_context": "Điều 78 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động có quyền thành lập, gia nhập tổ chức đại diện người lao động tại cơ sở không?",
+    "expected_answer": "Có quyền tự nguyện thành lập, gia nhập và tham gia hoạt động của tổ chức đại diện người lao động tại cơ sở (Công đoàn).",
+    "expected_context": "Điều 170 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Đình công là gì?",
+    "expected_answer": "Là sự ngừng việc tạm thời, tự nguyện và có tổ chức của tập thể lao động nhằm giải quyết tranh chấp lao động tập thể về lợi ích.",
+    "expected_context": "Điều 198 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Cuộc đình công do tổ chức nào lãnh đạo và tổ chức?",
+    "expected_answer": "Do tổ chức đại diện người lao động tại cơ sở có quyền thương lượng tập thể là một bên tranh chấp lao động tập thể tổ chức và lãnh đạo.",
+    "expected_context": "Điều 198 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Những trường hợp nào được coi là đình công bất hợp pháp?",
+    "expected_answer": "Không do tổ chức đại diện người lao động tổ chức lãnh đạo; không thuộc phạm vi tranh chấp lao động tập thể về lợi ích; vi phạm quyết định hoãn hoặc ngừng đình công.",
+    "expected_context": "Điều 204 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Trong thời gian đình công, người lao động tham gia đình công có được hưởng lương không?",
+    "expected_answer": "Người lao động tham gia đình công không được hưởng lương và các quyền lợi khác theo quy định của pháp luật, trừ trường hợp các bên có thỏa thuận khác.",
+    "expected_context": "Điều 207 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động không tham gia đình công nhưng phải ngừng việc vì lý do đình công thì được trả lương như thế nào?",
+    "expected_answer": "Được trả lương ngừng việc theo quy định tại khoản 2 Điều 99 của Bộ luật này và các quyền lợi khác theo quy định.",
+    "expected_context": "Điều 207 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi người sử dụng lao động nợ lương, người lao động có quyền từ chối làm việc không?",
+    "expected_answer": "Có quyền đơn phương chấm dứt hợp đồng lao động không cần báo trước hoặc ngừng việc nếu không được trả lương đầy đủ hoặc đúng hạn.",
+    "expected_context": "Điều 35 và Điều 97 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Phụ cấp lương là gì?",
+    "expected_answer": "Là khoản tiền để bù đắp các yếu tố về điều kiện lao động, tính chất phức tạp của công việc, điều kiện sinh hoạt... chưa được tính đầy đủ trong mức lương theo công việc.",
+    "expected_context": "Thông tư 10/2020/TT-BLĐTBXH"
+  },
+  {
+    "question": "Tiền thưởng của người lao động có bắt buộc phải trả bằng tiền mặt không?",
+    "expected_answer": "Không bắt buộc, tiền thưởng là số tiền hoặc tài sản hoặc bằng các hình thức khác mà người sử dụng lao động thưởng cho người lao động dựa trên kết quả sản xuất, kinh doanh.",
+    "expected_context": "Điều 104 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người sử dụng lao động phải thông báo quy chế thưởng cho người lao động tại thời điểm nào?",
+    "expected_answer": "Quy chế thưởng phải được công bố công khai tại nơi làm việc sau khi tham khảo ý kiến của tổ chức đại diện người lao động tại cơ sở.",
+    "expected_context": "Điều 104 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi thay đổi cơ cấu, công nghệ mà ảnh hưởng đến việc làm của nhiều người lao động, người sử dụng lao động phải xây dựng phương án gì?",
+    "expected_answer": "Phải xây dựng và thực hiện phương án sử dụng lao động.",
+    "expected_context": "Điều 44 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Trợ cấp mất việc làm được trả cho người lao động đã làm việc thường xuyên từ bao nhiêu tháng trở lên?",
+    "expected_answer": "Từ đủ 12 tháng trở lên bị mất việc làm do thay đổi cơ cấu, công nghệ hoặc do lý do kinh tế.",
+    "expected_context": "Điều 47 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Mỗi năm làm việc mất việc làm thì người lao động được trợ cấp mất việc làm là bao nhiêu?",
+    "expected_answer": "Trợ cấp ít nhất bằng 02 tháng tiền lương đối với người lao động đã làm việc thường xuyên từ đủ 12 tháng trở lên, mỗi năm làm việc được trợ cấp 01 tháng tiền lương.",
+    "expected_context": "Điều 47 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời gian làm việc để tính trợ cấp thôi việc, trợ cấp mất việc làm gồm những khoảng thời gian nào?",
+    "expected_answer": "Tổng thời gian làm việc thực tế trừ đi thời gian đã tham gia bảo hiểm thất nghiệp và thời gian đã được chi trả trợ cấp thôi việc, mất việc làm trước đó.",
+    "expected_context": "Điều 46 và Điều 47 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi người sử dụng lao động là cá nhân chết thì hợp đồng lao động chấm dứt theo căn cứ nào?",
+    "expected_answer": "Chấm dứt theo quy định do người sử dụng lao động là cá nhân chết; bị Tòa án tuyên bố mất năng lực hành vi dân sự, mất tích hoặc đã chết.",
+    "expected_context": "Điều 34 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Trong trường hợp chuyển quyền sở hữu, quyền quản lý tài sản của doanh nghiệp, người kế thừa nghĩa vụ phải làm gì với lao động hiện có?",
+    "expected_answer": "Người sử dụng lao động kế tiếp phải chịu trách nhiệm tiếp tục sử dụng lao động hiện có và tiến hành sửa đổi, bổ sung hợp đồng lao động.",
+    "expected_context": "Điều 43 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi người lao động làm việc theo chế độ làm việc không trọn thời gian thì quyền lợi được tính như thế nào?",
+    "expected_answer": "Được hưởng lương, các quyền và nghĩa vụ như người lao động làm toàn thời gian; bình đẳng về cơ hội, không bị phân biệt đối xử.",
+    "expected_context": "Điều 32 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động có thể giao kết nhiều hợp đồng lao động với nhiều người sử dụng lao động khác nhau không?",
+    "expected_answer": "Có quyền giao kết nhiều hợp đồng lao động với nhiều người sử dụng lao động khác nhau nhưng phải bảo đảm thực hiện đầy đủ các thỏa thuận.",
+    "expected_context": "Điều 19 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Khi giao kết nhiều hợp đồng lao động, việc đóng bảo hiểm xã hội bắt buộc được thực hiện theo hợp đồng nào?",
+    "expected_answer": "Đối với BHXH bắt buộc, BHTN thì đóng theo hợp đồng lao động giao kết đầu tiên; đối với BHYT thì đóng theo hợp đồng lao động có mức tiền lương cao nhất.",
+    "expected_context": "Nghị định 145/2020/NĐ-CP"
+  },
+  {
+    "question": "Người lao động tự ý nghỉ việc không có lý do chính đáng bao nhiêu ngày làm việc liên tục thì người sử dụng lao động được quyền đơn phương chấm dứt hợp đồng không cần báo trước?",
+    "expected_answer": "Từ 05 ngày làm việc liên tục trở lên.",
+    "expected_context": "Điều 36 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động bị kết án phạt tù giam thì hợp đồng lao động chấm dứt kể từ thời điểm nào?",
+    "expected_answer": "Kể từ ngày bản án, quyết định của Tòa án có hiệu lực pháp luật.",
+    "expected_context": "Điều 34 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời giờ nghỉ ngơi giữa ca làm việc có được tính vào thời giờ làm việc được hưởng lương không?",
+    "expected_answer": "Nếu làm việc theo ca liên tục từ 06 giờ trở lên (ban ngày) hoặc 05 giờ trở lên (ban đêm) thì thời gian nghỉ giữa giờ được tính vào giờ làm việc.",
+    "expected_context": "Nghị định 145/2020/NĐ-CP"
+  },
+  {
+    "question": "Người sử dụng lao động có bắt buộc phải tổ chức đối thoại tại nơi làm việc định kỳ không và chu kỳ là bao lâu?",
+    "expected_answer": "Có bắt buộc tổ chức đối thoại định kỳ ít nhất 01 lần trong một năm.",
+    "expected_context": "Điều 63 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Việc hòa giải tranh chấp lao động cá nhân do ai thực hiện trước tiên?",
+    "expected_answer": "Do Hòa giải viên lao động thực hiện trước khi yêu cầu Hội đồng trọng tài lao động hoặc Tòa án giải quyết (trừ một số trường hợp không bắt buộc hòa giải).",
+    "expected_context": "Điều 188 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời hiệu yêu cầu Hòa giải viên lao động thực hiện hòa giải tranh chấp lao động cá nhân là bao lâu?",
+    "expected_answer": "Là 06 tháng kể từ ngày phát hiện ra hành vi mà mỗi bên tranh chấp cho rằng quyền và lợi ích hợp pháp của mình bị vi phạm.",
+    "expected_context": "Điều 190 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Thời hiệu yêu cầu Tòa án giải quyết tranh chấp lao động cá nhân là bao lâu?",
+    "expected_answer": "Là 01 năm kể từ ngày phát hiện ra hành vi mà mỗi bên tranh chấp cho rằng quyền và lợi ích hợp pháp của mình bị vi phạm.",
+    "expected_context": "Điều 190 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người sử dụng lao động có được sử dụng lao động cưỡng bức không?",
+    "expected_answer": "Nghiêm cấm mọi hành vi cưỡng bức lao động.",
+    "expected_context": "Điều 8 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Phân biệt đối xử trong lao động bao gồm những hành vi nào bị cấm?",
+    "expected_answer": "Phân biệt đối xử vì lý do giới tính, chủng tộc, màu da, thành phần xã hội, tình trạng hôn nhân, tín ngưỡng, tôn giáo, nhiễm HIV, khuyết tật...",
+    "expected_context": "Điều 8 Bộ luật Lao động 2019"
+  },
+  {
+    "question": "Người lao động làm công việc có nguy cơ mắc bệnh nghề nghiệp có được khám sức khỏe định kỳ không và tần suất thế nào?",
+    "expected_answer": "Phải được khám sức khỏe ít nhất 06 tháng một lần.",
+    "expected_context": "Điều 21 Luật An toàn, vệ sinh lao động 2015"
+  },
+  {
+    "question": "Khi nghỉ hằng năm, nếu đi bằng phương tiện đường bộ, đường sắt, đường thủy mà số ngày đi đường cả đi và về trên mấy ngày thì từ ngày thứ mấy trở đi được tính thêm thời gian đi đường ngoài ngày nghỉ hằng năm?",
+    "expected_answer": "Đi đường cả đi và về trên 02 ngày thì từ ngày thứ 03 trở đi được tính thêm thời gian đi đường ngoài ngày nghỉ hằng năm và chỉ được tính cho 01 lần nghỉ trong năm.",
+    "expected_context": "Điều 113 Bộ luật Lao động 2019"
   }
 ]
