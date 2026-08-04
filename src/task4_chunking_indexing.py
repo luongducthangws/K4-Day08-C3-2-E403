@@ -1,9 +1,14 @@
 """Task 4: load, chunk, embed, and index standardized Markdown documents."""
 from __future__ import annotations
 
+import os
 from functools import lru_cache
 from pathlib import Path
 from typing import Final, Protocol, TypedDict
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 STANDARDIZED_DIR: Path = Path(__file__).parent.parent / "data" / "standardized"
 CHROMA_DIR: Path = Path(__file__).parent.parent / "chroma_db"
@@ -11,8 +16,14 @@ CHUNK_SIZE: Final = 800
 CHUNK_OVERLAP: Final = 100
 CHUNKING_METHOD: Final = "recursive_character_separators"
 SEPARATORS: Final = ["\n\n", "\n", ". ", " ", ""]
+# Embedding: mặc định local BAAI/bge-m3 (sentence-transformers) theo cấu hình
+# nhóm đã chốt (mục 3 description.md). Nếu FPT_API_KEY có trong env, ưu tiên
+# gọi embedding qua FPT AI Marketplace (hạ tầng dùng chung) — tránh phải tải
+# model ~1-2GB và load vào RAM trên máy yếu.
 EMBEDDING_MODEL: Final = "BAAI/bge-m3"
 EMBEDDING_DIM: Final = 1024
+FPT_BASE_URL: Final = "https://mkp-api.fptcloud.com"
+FPT_EMBEDDING_MODEL: Final = "Vietnamese_Embedding"
 VECTOR_STORE: Final = "chromadb"
 COLLECTION_NAME: Final = "ecommerce_support_docs"
 
@@ -121,10 +132,42 @@ def get_embedding_model() -> Embedder:
     return SentenceTransformer(EMBEDDING_MODEL)
 
 
+FPT_EMBEDDING_BATCH_SIZE: Final = 32
+
+
+def _embed_via_fpt(texts: list[str]) -> list[list[float]]:
+    """Embed via FPT AI Marketplace (OpenAI-compatible /embeddings).
+
+    Batched: sending the full corpus (hundreds of chunks) in one request makes
+    the API connection drop mid-response (ChunkedEncodingError).
+    """
+    import requests
+
+    api_key = os.environ["FPT_API_KEY"]
+    model = os.getenv("FPT_EMBEDDING_MODEL", FPT_EMBEDDING_MODEL)
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+
+    embeddings: list[list[float]] = []
+    for start in range(0, len(texts), FPT_EMBEDDING_BATCH_SIZE):
+        batch = texts[start : start + FPT_EMBEDDING_BATCH_SIZE]
+        response = requests.post(
+            f"{FPT_BASE_URL}/embeddings",
+            headers=headers,
+            json={"model": model, "input": batch},
+            timeout=60,
+        )
+        response.raise_for_status()
+        ordered = sorted(response.json()["data"], key=lambda item: item["index"])
+        embeddings.extend(item["embedding"] for item in ordered)
+    return embeddings
+
+
 def embed_texts(texts: list[str]) -> list[list[float]]:
-    """Embed text using the shared cached local model."""
+    """Embed text via FPT AI Marketplace if configured, else the shared local model."""
     if not texts:
         return []
+    if os.getenv("FPT_API_KEY"):
+        return _embed_via_fpt(texts)
     embeddings = get_embedding_model().encode(texts, normalize_embeddings=True)
     return [list(vector) for vector in embeddings]
 

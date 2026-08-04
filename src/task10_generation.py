@@ -37,8 +37,27 @@ TOP_P = 0.9
 # Chọn 0.3 vì: RAG cần factual, ít sáng tạo
 TEMPERATURE = 0.3
 
-# TODO: Chọn LLM model (OpenRouter model ID)
-LLM_MODEL = "openai/gpt-4o-mini"  # hoặc model ":free" nếu chưa có credit
+# LLM provider: ưu tiên FPT AI Marketplace (OpenAI-compatible, hạ tầng dùng
+# chung sẵn có trong môi trường dev — xem FPT_API_KEY/OPENAI_API_BASE),
+# fallback OpenRouter theo cấu hình nhóm (mục 3 description.md) nếu không có.
+FPT_BASE_URL = "https://mkp-api.fptcloud.com"
+FPT_MODEL = "Llama-3.3-70B-Instruct"
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_MODEL = "meta-llama/llama-3.3-70b-instruct:free"
+
+
+def _resolve_llm_config() -> tuple[str, str, str]:
+    """Trả về (api_key, base_url, model) theo provider có API key sẵn trong env."""
+    fpt_key = os.getenv("FPT_API_KEY") or os.getenv("OPENAI_API_KEY")
+    fpt_base = os.getenv("OPENAI_API_BASE") or (FPT_BASE_URL if os.getenv("FPT_API_KEY") else None)
+    if fpt_key and fpt_base:
+        return fpt_key, fpt_base, FPT_MODEL
+    if os.getenv("OPENROUTER_API_KEY"):
+        return os.environ["OPENROUTER_API_KEY"], OPENROUTER_BASE_URL, OPENROUTER_MODEL
+    raise RuntimeError(
+        "Thiếu LLM API key — đặt FPT_API_KEY (hạ tầng FPT AI Marketplace) "
+        "hoặc OPENROUTER_API_KEY trong .env"
+    )
 
 
 # =============================================================================
@@ -76,15 +95,12 @@ def reorder_for_llm(chunks: list[dict]) -> list[dict]:
     Returns:
         List reordered để maximize LLM attention.
     """
-    # TODO: Implement reordering
-    #
-    # if len(chunks) <= 2:
-    #     return chunks
-    #
-    # front = chunks[::2]   # index 0, 2, 4 -> đặt ở đầu
-    # back = chunks[1::2]   # index 1, 3    -> đặt ở cuối (reversed)
-    # return front + back[::-1]
-    raise NotImplementedError("Implement reorder_for_llm")
+    if len(chunks) <= 2:
+        return chunks
+
+    front = chunks[::2]   # index 0, 2, 4 -> đặt ở đầu
+    back = chunks[1::2]   # index 1, 3    -> đặt ở cuối (reversed)
+    return front + back[::-1]
 
 
 # =============================================================================
@@ -102,18 +118,15 @@ def format_context(chunks: list[dict]) -> str:
     Returns:
         Formatted context string.
     """
-    # TODO: Implement context formatting
-    #
-    # context_parts = []
-    # for i, chunk in enumerate(chunks, 1):
-    #     source = chunk.get("metadata", {}).get("source", f"Source {i}")
-    #     doc_type = chunk.get("metadata", {}).get("type", "unknown")
-    #     context_parts.append(
-    #         f"[Document {i} | Source: {source} | Type: {doc_type}]\n"
-    #         f"{chunk['content']}\n"
-    #     )
-    # return "\n---\n".join(context_parts)
-    raise NotImplementedError("Implement format_context")
+    context_parts = []
+    for i, chunk in enumerate(chunks, 1):
+        source = chunk.get("metadata", {}).get("source", f"Source {i}")
+        doc_type = chunk.get("metadata", {}).get("type", "unknown")
+        context_parts.append(
+            f"[Document {i} | Source: {source} | Type: {doc_type}]\n"
+            f"{chunk['content']}\n"
+        )
+    return "\n---\n".join(context_parts)
 
 
 # =============================================================================
@@ -142,44 +155,48 @@ def generate_with_citation(query: str, top_k: int = TOP_K) -> dict:
             'retrieval_source': str  # 'hybrid' hoặc 'pageindex'
         }
     """
-    # TODO: Implement generation pipeline
-    #
-    # # Step 1: Retrieve
-    # chunks = retrieve(query, top_k=top_k)
-    #
-    # # Step 2: Reorder
-    # reordered = reorder_for_llm(chunks)
-    #
-    # # Step 3: Format context
-    # context = format_context(reordered)
-    #
-    # # Step 4: Build prompt
-    # user_message = f"""Context:\n{context}\n\n---\n\nQuestion: {query}"""
-    #
-    # # Step 5: Call LLM (OpenRouter — OpenAI-compatible API)
-    # from openai import OpenAI
-    # api_key = os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
-    # client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
-    #
-    # response = client.chat.completions.create(
-    #     model=LLM_MODEL,
-    #     messages=[
-    #         {"role": "system", "content": SYSTEM_PROMPT},
-    #         {"role": "user", "content": user_message}
-    #     ],
-    #     temperature=TEMPERATURE,
-    #     top_p=TOP_P,
-    # )
-    #
-    # answer = response.choices[0].message.content
-    #
-    # # Step 6: Return
-    # return {
-    #     "answer": answer,
-    #     "sources": chunks,
-    #     "retrieval_source": chunks[0].get("source", "hybrid") if chunks else "none"
-    # }
-    raise NotImplementedError("Implement generate_with_citation")
+    # Step 1: Retrieve
+    chunks = retrieve(query, top_k=top_k)
+    if not chunks:
+        return {
+            "answer": "Tôi không thể xác minh thông tin này từ nguồn hiện có",
+            "sources": [],
+            "retrieval_source": "none",
+        }
+
+    # Step 2: Reorder để tránh lost in the middle
+    reordered = reorder_for_llm(chunks)
+
+    # Step 3: Format context
+    context = format_context(reordered)
+
+    # Step 4: Build prompt
+    user_message = f"""Context:\n{context}\n\n---\n\nQuestion: {query}"""
+
+    # Step 5: Call LLM (OpenAI-compatible API — FPT AI Marketplace hoặc OpenRouter)
+    from openai import OpenAI
+
+    api_key, base_url, model = _resolve_llm_config()
+    client = OpenAI(api_key=api_key, base_url=base_url)
+
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_message},
+        ],
+        temperature=TEMPERATURE,
+        top_p=TOP_P,
+    )
+
+    answer = response.choices[0].message.content
+
+    # Step 6: Return
+    return {
+        "answer": answer,
+        "sources": chunks,
+        "retrieval_source": chunks[0].get("source", "hybrid") if chunks else "none",
+    }
 
 
 if __name__ == "__main__":
