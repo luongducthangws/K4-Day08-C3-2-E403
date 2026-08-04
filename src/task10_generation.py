@@ -37,8 +37,9 @@ TOP_P = 0.9
 # Chọn 0.3 vì: RAG cần factual, ít sáng tạo
 TEMPERATURE = 0.3
 
-# TODO: Chọn LLM model (OpenRouter model ID)
-LLM_MODEL = "openai/gpt-4o-mini"  # hoặc model ":free" nếu chưa có credit
+# Có thể đổi model mà không sửa code qua file .env.
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
+LLM_MODEL = os.getenv("LLM_MODEL", "openai/gpt-4o-mini")
 
 
 # =============================================================================
@@ -149,9 +150,29 @@ def generate_with_citation(query: str, top_k: int = TOP_K) -> dict:
         }
 
     user_message = f"Context:\n{context}\n\n---\n\nQuestion: {query}"
+    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
     api_key = os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
     answer = ""
-    if api_key:
+    if gemini_key:
+        try:
+            from google import genai
+            from google.genai import types
+
+            client = genai.Client(api_key=gemini_key)
+            response = client.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=user_message,
+                config=types.GenerateContentConfig(
+                    system_instruction=SYSTEM_PROMPT,
+                    temperature=TEMPERATURE,
+                    top_p=TOP_P,
+                ),
+            )
+            answer = response.text or ""
+        except Exception as exc:
+            print(f"Gemini generation failed: {exc}")
+            answer = ""
+    elif api_key:
         try:
             from openai import OpenAI
 
@@ -194,9 +215,9 @@ def generate_with_citation(query: str, top_k: int = TOP_K) -> dict:
 
 if __name__ == "__main__":
     test_queries = [
-        "Shopee hỗ trợ những phương thức thanh toán nào?",
-        "Làm sao để yêu cầu đổi trả hay hoàn tiền?",
-        "Cần chuẩn bị bằng chứng gì khi yêu cầu hoàn tiền?",
+        "Thời gian thử việc tối đa là bao lâu?",
+        "Lương thử việc tối thiểu bằng bao nhiêu phần trăm lương chính thức?",
+        "Người lao động được nghỉ phép năm bao nhiêu ngày?",
     ]
 
     for q in test_queries:
