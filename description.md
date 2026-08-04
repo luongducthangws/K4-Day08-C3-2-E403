@@ -74,7 +74,7 @@ group — **đừng để mỗi người tự chọn khác nhau**, vì Task 4/5/
 | `EMBEDDING_PROVIDER` | `sentence_transformers` (local, không cần API key — khuyến nghị cho nhóm học) | Đổi → phải xoá `chroma_db/` và reindex lại (dimension khác nhau) |
 | `EMBEDDING_MODEL` | `BAAI/bge-m3` (multilingual, tốt tiếng Việt) | Ảnh hưởng Task 4 & 5 |
 | `COLLECTION_NAME` (Task 4) | `labor_law_docs` | Đổi tên collection thì Task 5 phải sửa theo |
-| Chunking | **Hybrid theo loại tài liệu**: `legal_structure` (chunk theo `Điều N.`, chẻ tiếp theo Khoản nếu Điều > `CHUNK_SIZE`) cho `data/standardized/legal/`; `RecursiveCharacterTextSplitter` cho `data/standardized/news/`. `CHUNK_SIZE=800`, `overlap=50` | Ảnh hưởng chất lượng retrieval **và độ chính xác trích dẫn** — xem lý do bên dưới |
+| Chunking | `RecursiveCharacterTextSplitter`, `chunk_size=500`, `overlap=50` (giữ nguyên theo template bài tập) | Ảnh hưởng chất lượng retrieval toàn bộ pipeline |
 | Rerank method (Task 7/9) | `rrf` (không cần API key) | Nếu đổi sang cross-encoder cần `JINA_API_KEY` |
 | `LLM_MODEL` (Task 10) | 1 model `:free` trên OpenRouter (xem `openrouter.ai/models?max_price=0`) | Đổi model có thể đổi giọng văn câu trả lời |
 | `SCORE_THRESHOLD` (Task 9) | Để mặc định `0.3`, **Role 4 tự calibrate lại** bằng dữ liệu luật lao động thật (xem ghi chú trong `task9_retrieval_pipeline.py`) | Threshold cũ tính trên corpus Shopee — không dùng nguyên |
@@ -82,14 +82,10 @@ group — **đừng để mỗi người tự chọn khác nhau**, vì Task 4/5/
 Ai phụ trách Task 4 (Role 3) là người **khởi tạo** các giá trị này trong code; người khác **đọc lại
 từ `.env`/import từ `task4_chunking_indexing.py`**, không tự định nghĩa giá trị riêng.
 
-**Vì sao chunk theo Điều/Khoản thay vì recursive thuần cho văn bản luật?** Task 10 yêu cầu trích dẫn
-dạng `[Điều 25, Bộ luật Lao động 2019]`. Recursive splitter cắt theo số ký tự cố định, không biết
-ranh giới Điều — dễ cắt đôi 1 Điều giữa 2 chunk khác nhau, khiến trích dẫn sai/mơ hồ và giảm độ chính
-xác retrieval (1 câu trả lời đúng có thể nằm vắt qua 2 chunk). SemanticChunker cũng không cần thiết
-ở đây vì luật đã có ranh giới cấu trúc rõ (Điều/Khoản) sẵn — dùng embedding để đoán lại ranh giới đã
-biết trước là lãng phí. `RecursiveCharacterTextSplitter` vẫn cần dùng làm fallback cho
-`data/standardized/news/` (bài viết crawl, prose tự do, không có cấu trúc Điều/Khoản). Xem code mẫu
-hybrid trong `src/task4_chunking_indexing.py::chunk_documents()`.
+> Ghi chú: có cân nhắc chunk theo cấu trúc Điều/Khoản cho văn bản luật (giữ trích dẫn chính xác hơn),
+> nhưng nhóm quyết định **giữ nguyên chunking mặc định của template bài tập**
+> (`RecursiveCharacterTextSplitter`) để đơn giản và bám đúng khung bài tập gốc. Nếu retrieval cho
+> văn bản luật không đủ chính xác khi test thật, có thể quay lại cân nhắc hướng này sau.
 
 ---
 
@@ -123,9 +119,7 @@ trước hay sau người khác, khi ghép lại sẽ chạy được ngay.
 {"content": str, "metadata": {"source": str, "type": "legal" | "news", "stakeholder": "employee" | "employer" | "both"}}
 
 # ---- Task 4.chunk_documents() — mỗi chunk ----
-{"content": str, "metadata": {**doc_metadata, "chunk_index": int | str}}
-# Nếu type == "legal": metadata có thêm "dieu_number": str (vd. "25") để Task 10 trích dẫn
-# đúng dạng "[Điều 25, <source>]" thay vì chỉ trích dẫn theo tên file.
+{"content": str, "metadata": {**doc_metadata, "chunk_index": int}}
 
 # ---- Task 4.embed_chunks() — thêm 1 key vào chunk ----
 {..., "embedding": list[float]}
@@ -159,13 +153,13 @@ dữ liệu giả đúng schema, test module của mình độc lập trước k
 
 ```python
 MOCK_CHUNKS = [
-    {"content": "Điều 25. Thời gian thử việc tối đa 60 ngày đối với công việc có chức danh nghề "
+    {"content": "Thời gian thử việc tối đa 60 ngày đối với công việc có chức danh nghề "
                  "nghiệp cần trình độ chuyên môn từ cao đẳng trở lên. Lương thử việc tối thiểu "
                  "bằng 85% lương chính thức.",
-     "score": 0.91, "metadata": {"source": "bo-luat-lao-dong-2019.md", "type": "legal", "stakeholder": "both", "dieu_number": "25"}},
-    {"content": "Điều 98. Làm thêm giờ vào ngày lễ, tết được trả lương ít nhất bằng 300% chưa kể "
-                 "lương ngày lễ đối với người lao động hưởng lương ngày.",
-     "score": 0.85, "metadata": {"source": "nghi-dinh-145-2020.md", "type": "legal", "stakeholder": "employee", "dieu_number": "98"}},
+     "score": 0.91, "metadata": {"source": "bo-luat-lao-dong-2019.md", "type": "legal", "stakeholder": "both"}},
+    {"content": "Làm thêm giờ vào ngày lễ, tết được trả lương ít nhất bằng 300% chưa kể lương "
+                 "ngày lễ đối với người lao động hưởng lương ngày.",
+     "score": 0.85, "metadata": {"source": "nghi-dinh-145-2020.md", "type": "legal", "stakeholder": "employee"}},
     {"content": "Khi đơn phương chấm dứt hợp đồng lao động, người sử dụng lao động phải báo "
                  "trước ít nhất 30 ngày đối với hợp đồng xác định thời hạn.",
      "score": 0.78, "metadata": {"source": "huong-dan-sa-thai-dung-luat.md", "type": "news", "stakeholder": "employer"}},
